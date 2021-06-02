@@ -1,0 +1,42 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <h1>catum library</h1>
+    <input type="color" id="color">
+    <button onclick="run()">click on me</button>
+    <button onclik="save_file()">alert hi</button>
+    <script src="libraries/p5.js"></script>
+    <script src="libraries/p5.dom.js"></script>
+    <script src="sketch.js"></script>
+    <script>
+        var _exposed_functions = {};
+
+        function expose(f, name) {
+            if (name === undefined) {
+                name = f.toString();
+                let i = 'function '.length, j = name.indexOf('(');
+                name = name.substring(i, j).trim();
+            }
+
+            _exposed_functions[name] = f;
+            console.log(_exposed_functions);
+
+        }
+
+
+    </script>
+    <script>
+        expose(hi, hi)
+        function hi() {
+            alert("hi");
+        }
+        var txt = loadStrings("js_functions.txt");
+        console.log(txt);
+    </script>
+</body>
+
+</html>
