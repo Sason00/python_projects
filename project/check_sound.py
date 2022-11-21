@@ -52,4 +52,3 @@ for i in frames:
 stream.stop_stream()
 stream.close()
 p.terminate()
-

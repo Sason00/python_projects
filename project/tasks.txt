@@ -1,0 +1,4 @@
+mix server and client
+create gui in pyqt/pyside
+create server that create rooms
+get access to rooms
