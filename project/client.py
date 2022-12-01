@@ -1,5 +1,6 @@
 import socket
 import pyaudio
+import wave
 
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
@@ -8,7 +9,7 @@ chunk = 1024      # Each chunk will consist of 1024 samples
 sample_format = pyaudio.paInt16      # 16 bits per sample
 channels = 1      # Number of audio channels
 fs = 44100        # Record at 44100 samples per second
-time_in_seconds = 1
+time_in_seconds = 10
 
 sock = socket.socket(socket.AF_INET, # Internet
                        socket.SOCK_DGRAM) # UDP
@@ -34,12 +35,12 @@ print('-----Now Recording-----')
  
 #Open a Stream with the values we just defined
 stream = p.open(format=sample_format,
-                channels = 2,
+                channels = p.get_default_input_device_info()["maxInputChannels"],
                 rate = fs,
                 frames_per_buffer = chunk,
                 input = True,
-                output=True,
-                input_device_index=1)
+                output=False,
+                input_device_index=p.get_default_input_device_info()["index"])
  
 frames = []  # Initialize array to store frames
 
@@ -50,6 +51,7 @@ print(int(fs / chunk * time_in_seconds))
 for i in range(0, int(fs / chunk * time_in_seconds)):
     data = stream.read(chunk)
     frames.append(data)
+    send(data)
  
 # Stop and close the Stream and PyAudio
 stream.stop_stream()
@@ -58,5 +60,16 @@ p.terminate()
  
 print('-----Finished Recording-----')
 
-for i in frames:
-    send(i)
+
+send("stop".encode())
+
+"""
+file = wave.open("output1.wav", 'wb')
+file.setnchannels(channels)
+file.setsampwidth(p.get_sample_size(sample_format))
+file.setframerate(fs)
+ 
+#Write and Close the File
+file.writeframes(b''.join(frames))
+file.close()
+"""
