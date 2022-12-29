@@ -1,13 +1,13 @@
 import sys
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QApplication, QPushButton, QLineEdit
+from PySide6.QtWidgets import QApplication, QPushButton, QLineEdit
 
 # C:\Python310\Lib\site-packages\PySide6\uic.exe
 
 loader = QUiLoader()
 app = QtWidgets.QApplication(sys.argv)
-dialog = loader.load("untitled.ui", None)
+dialog = loader.load("pages/main_page.ui", None)
 
 btn = dialog.create_new_room_button
 print(f"{btn=}")
